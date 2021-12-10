@@ -4,57 +4,64 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, IMovable
 {
+    [Header("Movement Variables")]
     public float gravity;
     public float speed;
+    public float jumpHeight;
 
-    [Header("Ground Check")]
+    [Header("Ground Check Variables")]
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask layerMask;
 
+    [HideInInspector]
     public CharacterController characterController;
 
-    bool isMovingLeft;
-    bool isMovingRight;
-    bool isMovingForwards;
-    bool isMovingBackwards;
+    Vector3 currentMovement;
+    Vector3 nonGroundMovement;
 
     bool isGrounded;
 
+    void Start()
+    {
+        characterController = GetComponent<CharacterController>();
+    }
+
+    public void Move(Vector2 movementAxis)
+    {
+        currentMovement = (movementAxis.x * -transform.forward + movementAxis.y * transform.right) * speed;
+    }
 
     public void Move(IMovable.MoveDirections moveDirections)
     {
-        if(moveDirections == IMovable.MoveDirections.Left)
-        {
-            isMovingLeft = !isMovingLeft;
-        }
-        if(moveDirections == IMovable.MoveDirections.Right)
-        {
-            isMovingRight = !isMovingRight;
-        }
-        if(moveDirections == IMovable.MoveDirections.Forwards)
-        {
-            isMovingForwards = !isMovingForwards;
-        }
-        if(moveDirections == IMovable.MoveDirections.Backwards)
-        {
-            isMovingBackwards = !isMovingBackwards;
-        }
         if(moveDirections == IMovable.MoveDirections.Jump)
         {
-
+            if (isGrounded)
+            {
+                nonGroundMovement = transform.up * jumpHeight * 10;
+            }
         }
+    }
+
+    public void Look(Vector2 lookVector)
+    {
+        throw new System.NotImplementedException();
     }
 
     void Update()
     {
-        characterController.Move(Vector3.down * gravity * Time.deltaTime);
-
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, layerMask);
 
-        if(isMovingLeft || isMovingRight || isMovingForwards || isMovingBackwards)
+        if (isGrounded && nonGroundMovement.y < 0)
         {
-            Debug.Log("Moving");
+            nonGroundMovement += -transform.up * 2;
         }
+        else
+        {
+            nonGroundMovement += -transform.up * gravity * 100 * Time.deltaTime;
+        }
+
+        characterController.Move(currentMovement * Time.deltaTime);
+        characterController.Move(nonGroundMovement * Time.deltaTime);
     }
 }

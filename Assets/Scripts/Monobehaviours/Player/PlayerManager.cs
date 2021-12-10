@@ -26,11 +26,11 @@ public class PlayerManager : MonoBehaviour
         deathLogic = GetComponent<IKillable>();
 
         inputActions = new InputActions();
-        inputActions.PC.Forwards.performed += ctx => movementLogic.Move(IMovable.MoveDirections.Forwards);
-        inputActions.PC.Backwards.performed += ctx => movementLogic.Move(IMovable.MoveDirections.Backwards);
-        inputActions.PC.Left.performed += ctx => movementLogic.Move(IMovable.MoveDirections.Left);
-        inputActions.PC.Right.performed += ctx => movementLogic.Move(IMovable.MoveDirections.Right);
+
+        inputActions.PC.Movement.performed += ctx => movementLogic.Move(ctx.ReadValue<Vector2>());
         inputActions.PC.Jump.performed += ctx => movementLogic.Move(IMovable.MoveDirections.Jump);
+
+
     }
 
     private void Update()
