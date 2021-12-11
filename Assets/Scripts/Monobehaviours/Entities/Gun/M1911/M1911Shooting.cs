@@ -6,19 +6,27 @@ public class M1911Shooting : MonoBehaviour, IShootable
 {
     bool isShooting;
 
-    public void Shoot(WeaponObject weaponStats)
+    public bool Shoot(WeaponObject weaponStats)
     {
         isShooting = !isShooting;
 
         RaycastHit raycastHit;
 
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out raycastHit) && isShooting)
+        if (isShooting)
         {
-            if((raycastHit.point - transform.position).magnitude <= weaponStats.maxRange)
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out raycastHit))
             {
-                Debug.Log(weaponStats.maxRange / (raycastHit.point - transform.position).magnitude * weaponStats.maxDamage);
+                if ((raycastHit.point - transform.position).magnitude <= weaponStats.maxRange)
+                {
+                    Debug.Log("Hit something");
+                }
             }
+
+            Debug.Log("Bang");
+            return true;
         }
+
+        return false;
     }
 
     void Start()

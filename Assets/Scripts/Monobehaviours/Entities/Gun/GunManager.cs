@@ -34,8 +34,10 @@ public class GunManager : MonoBehaviour
         {
             if (reloadLogic.GetCurrentAmmo() > 0)
             {
-                shootingLogic.Shoot(currentWeapon);
-                reloadLogic.DecreaseCurrentAmmo();
+                if (shootingLogic.Shoot(currentWeapon))
+                {
+                    reloadLogic.DecreaseCurrentAmmo();
+                }
             }
             else
             {
