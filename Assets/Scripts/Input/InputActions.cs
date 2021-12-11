@@ -59,17 +59,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""MouseX"",
+                    ""name"": ""MouseMovement"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""273484fa-bb3b-4476-911a-5a6abd5a17b1"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""MouseY"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""67ae5a98-9270-4110-936e-a2072df470bc"",
+                    ""id"": ""e432e3ff-8b08-4f74-8faf-958adb076486"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -177,23 +169,12 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9fa76547-a6a2-438e-8d22-4501b395a6e8"",
-                    ""path"": ""<Mouse>/delta/y"",
+                    ""id"": ""fe96d441-422e-44ba-b485-6c115df2e023"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""groups"": ""KeyboardAndMouse"",
-                    ""action"": ""MouseY"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4f022a39-50ff-4b3c-bdd8-9637ffb99cb6"",
-                    ""path"": ""<Mouse>/delta/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardAndMouse"",
-                    ""action"": ""MouseX"",
+                    ""action"": ""MouseMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -226,8 +207,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_PC_Reload = m_PC.FindAction("Reload", throwIfNotFound: true);
         m_PC_Shoot = m_PC.FindAction("Shoot", throwIfNotFound: true);
         m_PC_Movement = m_PC.FindAction("Movement", throwIfNotFound: true);
-        m_PC_MouseX = m_PC.FindAction("MouseX", throwIfNotFound: true);
-        m_PC_MouseY = m_PC.FindAction("MouseY", throwIfNotFound: true);
+        m_PC_MouseMovement = m_PC.FindAction("MouseMovement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -282,8 +262,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PC_Reload;
     private readonly InputAction m_PC_Shoot;
     private readonly InputAction m_PC_Movement;
-    private readonly InputAction m_PC_MouseX;
-    private readonly InputAction m_PC_MouseY;
+    private readonly InputAction m_PC_MouseMovement;
     public struct PCActions
     {
         private @InputActions m_Wrapper;
@@ -293,8 +272,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Reload => m_Wrapper.m_PC_Reload;
         public InputAction @Shoot => m_Wrapper.m_PC_Shoot;
         public InputAction @Movement => m_Wrapper.m_PC_Movement;
-        public InputAction @MouseX => m_Wrapper.m_PC_MouseX;
-        public InputAction @MouseY => m_Wrapper.m_PC_MouseY;
+        public InputAction @MouseMovement => m_Wrapper.m_PC_MouseMovement;
         public InputActionMap Get() { return m_Wrapper.m_PC; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -319,12 +297,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_PCActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PCActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PCActionsCallbackInterface.OnMovement;
-                @MouseX.started -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseX;
-                @MouseX.performed -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseX;
-                @MouseX.canceled -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseX;
-                @MouseY.started -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseY;
-                @MouseY.performed -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseY;
-                @MouseY.canceled -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseY;
+                @MouseMovement.started -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseMovement;
+                @MouseMovement.performed -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseMovement;
+                @MouseMovement.canceled -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseMovement;
             }
             m_Wrapper.m_PCActionsCallbackInterface = instance;
             if (instance != null)
@@ -344,12 +319,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
-                @MouseX.started += instance.OnMouseX;
-                @MouseX.performed += instance.OnMouseX;
-                @MouseX.canceled += instance.OnMouseX;
-                @MouseY.started += instance.OnMouseY;
-                @MouseY.performed += instance.OnMouseY;
-                @MouseY.canceled += instance.OnMouseY;
+                @MouseMovement.started += instance.OnMouseMovement;
+                @MouseMovement.performed += instance.OnMouseMovement;
+                @MouseMovement.canceled += instance.OnMouseMovement;
             }
         }
     }
@@ -370,7 +342,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
-        void OnMouseX(InputAction.CallbackContext context);
-        void OnMouseY(InputAction.CallbackContext context);
+        void OnMouseMovement(InputAction.CallbackContext context);
     }
 }

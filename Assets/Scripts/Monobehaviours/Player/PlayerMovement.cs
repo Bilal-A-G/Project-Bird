@@ -9,6 +9,11 @@ public class PlayerMovement : MonoBehaviour, IMovable
     public float speed;
     public float jumpHeight;
 
+    [Header("Camera Variables")]
+    public float mouseSensitivity;
+    public Camera mainCamera;
+    public bool invertedCamera;
+
     [Header("Ground Check Variables")]
     public Transform groundCheck;
     public float groundCheckRadius;
@@ -18,18 +23,22 @@ public class PlayerMovement : MonoBehaviour, IMovable
     public CharacterController characterController;
 
     Vector3 currentMovement;
-    Vector3 nonGroundMovement;
+    Vector3 currentJumpMovement;
+
+    Vector2 currentMousePosition;
+    float finalRotation;
 
     bool isGrounded;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Move(Vector2 movementAxis)
     {
-        currentMovement = (movementAxis.x * -transform.forward + movementAxis.y * transform.right) * speed;
+        currentMovement = movementAxis;
     }
 
     public void Move(IMovable.MoveDirections moveDirections)
@@ -38,30 +47,60 @@ public class PlayerMovement : MonoBehaviour, IMovable
         {
             if (isGrounded)
             {
-                nonGroundMovement = transform.up * jumpHeight * 10;
+                currentJumpMovement = transform.up * jumpHeight * 10;
             }
         }
     }
 
     public void Look(Vector2 lookVector)
     {
-        throw new System.NotImplementedException();
+        if(lookVector != Vector2.zero)
+        {
+            currentMousePosition += lookVector;
+        }
+        else
+        {
+            currentMousePosition = Vector2.zero;
+        }
     }
 
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, layerMask);
+        float xRotation, yRotation;
+        
+        xRotation = transform.localEulerAngles.y + currentMousePosition.x * mouseSensitivity * 0.25f;
+        yRotation = currentMousePosition.y * mouseSensitivity * 0.25f;
 
-        if (isGrounded && nonGroundMovement.y < 0)
+        if (!invertedCamera)
         {
-            nonGroundMovement += -transform.up * 2;
+            finalRotation -= yRotation;
         }
         else
         {
-            nonGroundMovement += -transform.up * gravity * 100 * Time.deltaTime;
+            finalRotation += yRotation;
         }
 
-        characterController.Move(currentMovement * Time.deltaTime);
-        characterController.Move(nonGroundMovement * Time.deltaTime);
+        finalRotation = Mathf.Clamp(finalRotation, -90, 90);
+
+        transform.localEulerAngles = new Vector3(0, xRotation, 0);
+        mainCamera.transform.localEulerAngles = new Vector3(finalRotation, 0, 0);
+
+
+
+        Vector3 finalMovement = (currentMovement.x * transform.right + currentMovement.y * transform.forward) * speed;
+
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, layerMask);
+
+        if (isGrounded && currentJumpMovement.y < 0)
+        {
+            currentJumpMovement += -transform.up * 2;
+        }
+        else
+        {
+            currentJumpMovement += -transform.up * gravity * 100 * Time.deltaTime;
+        }
+
+        characterController.Move(finalMovement * Time.deltaTime);
+        characterController.Move(currentJumpMovement * Time.deltaTime);
     }
 }

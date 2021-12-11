@@ -589,7 +589,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 1
   speed: 5
-  jumpHeight: 2
+  jumpHeight: 1.5
+  mouseSensitivity: 1
+  mainCamera: {fileID: 963194227}
+  invertedCamera: 0
   groundCheck: {fileID: 1282434224}
   groundCheckRadius: 0.5
   layerMask:
