@@ -7,7 +7,7 @@ public class WeaponObject : ScriptableObject
 {
     public float maxDamage;
     public float maxRange;
-    public float effectiveRange;
+    public float maxAmmo;
 
     public GameObject weaponModel;
     public Sprite hotbarSprite;

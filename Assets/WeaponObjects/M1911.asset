@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cac1cbea88f05d4cb1644657b0f53c8, type: 3}
   m_Name: M1911
   m_EditorClassIdentifier: 
-  maxDamage: 10
+  maxDamage: 5
   maxRange: 20
-  effectiveRange: 18
+  maxAmmo: 20
   weaponModel: {fileID: 0}
   hotbarSprite: {fileID: 0}
