@@ -28,6 +28,7 @@ public class PlayerManager : MonoBehaviour
         inputActions = new InputActions();
 
         inputActions.PC.Movement.performed += ctx => movementLogic.Move(ctx.ReadValue<Vector2>());
+        inputActions.PC.Sprint.performed += ctx => movementLogic.Move(IMovable.MoveDirections.Sprint);
         inputActions.PC.Jump.performed += ctx => movementLogic.Move(IMovable.MoveDirections.Jump);
 
         inputActions.PC.MouseMovement.performed += ctx => movementLogic.Look(ctx.ReadValue<Vector2>());

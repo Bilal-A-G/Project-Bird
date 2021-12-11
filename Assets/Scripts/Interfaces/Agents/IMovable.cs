@@ -17,5 +17,6 @@ public interface IMovable
     {
         Jump,
         Any,
+        Sprint,
     }
 }

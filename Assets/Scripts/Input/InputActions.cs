@@ -65,6 +65,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""9ba2eb9e-0167-4731-94ee-22cae2787737"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -177,6 +185,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""MouseMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a004b363-1aac-4df7-80aa-75e61c61dfa0"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardAndMouse"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +227,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_PC_Shoot = m_PC.FindAction("Shoot", throwIfNotFound: true);
         m_PC_Movement = m_PC.FindAction("Movement", throwIfNotFound: true);
         m_PC_MouseMovement = m_PC.FindAction("MouseMovement", throwIfNotFound: true);
+        m_PC_Sprint = m_PC.FindAction("Sprint", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -263,6 +283,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PC_Shoot;
     private readonly InputAction m_PC_Movement;
     private readonly InputAction m_PC_MouseMovement;
+    private readonly InputAction m_PC_Sprint;
     public struct PCActions
     {
         private @InputActions m_Wrapper;
@@ -273,6 +294,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Shoot => m_Wrapper.m_PC_Shoot;
         public InputAction @Movement => m_Wrapper.m_PC_Movement;
         public InputAction @MouseMovement => m_Wrapper.m_PC_MouseMovement;
+        public InputAction @Sprint => m_Wrapper.m_PC_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_PC; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -300,6 +322,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @MouseMovement.started -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseMovement;
                 @MouseMovement.performed -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseMovement;
                 @MouseMovement.canceled -= m_Wrapper.m_PCActionsCallbackInterface.OnMouseMovement;
+                @Sprint.started -= m_Wrapper.m_PCActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_PCActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_PCActionsCallbackInterface.OnSprint;
             }
             m_Wrapper.m_PCActionsCallbackInterface = instance;
             if (instance != null)
@@ -322,6 +347,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @MouseMovement.started += instance.OnMouseMovement;
                 @MouseMovement.performed += instance.OnMouseMovement;
                 @MouseMovement.canceled += instance.OnMouseMovement;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
             }
         }
     }
@@ -343,5 +371,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnMouseMovement(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
     }
 }

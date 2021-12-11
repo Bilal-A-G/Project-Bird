@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour, IMovable
     public float gravity;
     public float speed;
     public float jumpHeight;
+    public float sprintSpeed;
+    public float maxStamina;
+    public float staminaDrain;
+    public float staminaRegen;
 
     [Header("Camera Variables")]
     public float mouseSensitivity;
@@ -28,12 +32,18 @@ public class PlayerMovement : MonoBehaviour, IMovable
     Vector2 currentMousePosition;
     float finalRotation;
 
+    float currentSpeed;
+    bool isSprinting;
+    float currentStamina;
+
     bool isGrounded;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+        currentSpeed = speed;
+        currentStamina = maxStamina;
     }
 
     public void Move(Vector2 movementAxis)
@@ -49,6 +59,10 @@ public class PlayerMovement : MonoBehaviour, IMovable
             {
                 currentJumpMovement = transform.up * jumpHeight * 10;
             }
+        }
+        if(moveDirections == IMovable.MoveDirections.Sprint)
+        {
+            isSprinting = !isSprinting;
         }
     }
 
@@ -87,20 +101,58 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
 
 
-        Vector3 finalMovement = (currentMovement.x * transform.right + currentMovement.y * transform.forward) * speed;
+        Vector3 finalMovement = (currentMovement.x * transform.right + currentMovement.y * transform.forward) * currentSpeed;
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, layerMask);
 
+        ControlStamina();
+        CalculateCurrentJumpMovement();
+
+        characterController.Move(finalMovement * Time.deltaTime);
+        characterController.Move(currentJumpMovement * Time.deltaTime);
+    }
+
+    void CalculateCurrentJumpMovement()
+    {
         if (isGrounded && currentJumpMovement.y < 0)
         {
-            currentJumpMovement += -transform.up * 2;
+            currentJumpMovement = -transform.up;
         }
         else
         {
             currentJumpMovement += -transform.up * gravity * 100 * Time.deltaTime;
         }
+    }
 
-        characterController.Move(finalMovement * Time.deltaTime);
-        characterController.Move(currentJumpMovement * Time.deltaTime);
+    void ControlStamina()
+    {
+        if (isSprinting && isGrounded && currentStamina > 0)
+        {
+            currentStamina -= staminaDrain * Time.deltaTime;
+
+            if (currentStamina < 0)
+            {
+                currentStamina = 0;
+            }
+        }
+
+        if (!isSprinting && isGrounded && currentStamina < maxStamina)
+        {
+            currentStamina += staminaRegen * Time.deltaTime;
+
+            if (currentStamina > maxStamina)
+            {
+                currentStamina = maxStamina;
+            }
+        }
+
+        if (isSprinting && currentStamina > 0)
+        {
+            currentSpeed = sprintSpeed;
+        }
+        else
+        {
+            currentSpeed = speed;
+        }
     }
 }
