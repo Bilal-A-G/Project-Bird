@@ -18,11 +18,12 @@ public class M1911Shooting : MonoBehaviour, IShootable
             {
                 if ((raycastHit.point - transform.position).magnitude <= weaponStats.maxRange)
                 {
-                    Debug.Log("Hit something");
+                    if(raycastHit.collider.gameObject.GetComponent<IKillable>() != null)
+                    {
+                        raycastHit.collider.gameObject.GetComponent<IKillable>().TakeDamage(weaponStats.maxDamage);
+                    }
                 }
             }
-
-            Debug.Log("Bang");
             return true;
         }
 

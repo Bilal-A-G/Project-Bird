@@ -10,4 +10,6 @@ public interface IKillable
 
     //Generic method that will return the current health of an agent
     float GetCurrentHealth();
+
+    void TakeDamage(float damage);
 }

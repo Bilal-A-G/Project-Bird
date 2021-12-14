@@ -7,7 +7,6 @@ public class PlayerManager : MonoBehaviour
     InputActions inputActions;
     IMovable movementLogic;
     IKillable deathLogic;
-    IAttackable attackLogic;
     IInteractable interactLogic;
 
     private void OnEnable()
@@ -23,7 +22,6 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         movementLogic = GetComponent<IMovable>();
-        attackLogic = GetComponent<IAttackable>();
         deathLogic = GetComponent<IKillable>();
         interactLogic = GetComponent<IInteractable>();
 
@@ -57,11 +55,14 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-
+        if(deathLogic.GetCurrentHealth() <= 0)
+        {
+            deathLogic.Die();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+   
     }
 }
