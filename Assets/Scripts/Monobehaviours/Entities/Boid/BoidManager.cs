@@ -23,10 +23,8 @@ public class BoidManager : MonoBehaviour
         }
 
         movementLogic.Move(IMovable.MoveDirections.Any);
+
+        attackLogic.DealDamage();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        attackLogic.DealDamage(collision);
-    }
 }

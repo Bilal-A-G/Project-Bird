@@ -6,6 +6,6 @@ using UnityEngine;
 public interface IAttackable
 {
     //Generic method that will deal damage to an agent based on a collision
-    void DealDamage(Collision collision);
+    void DealDamage();
 
 }
