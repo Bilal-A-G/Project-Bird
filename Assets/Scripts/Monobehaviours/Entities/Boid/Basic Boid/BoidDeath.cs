@@ -1,19 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class PlayerDeath : MonoBehaviour, IKillable
+public class BoidDeath : MonoBehaviour, IKillable
 {
     public float maxHealth;
     float currentHealth;
 
-    public Vector3 respawnPosition;
-
     public void Die()
     {
-        SceneManager.LoadScene("GameOver");
-        currentHealth = maxHealth;
+        Destroy(gameObject);
     }
 
     public float GetCurrentHealth() => currentHealth;
@@ -30,6 +26,6 @@ public class PlayerDeath : MonoBehaviour, IKillable
 
     void Update()
     {
-        
+
     }
 }

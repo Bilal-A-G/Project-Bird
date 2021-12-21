@@ -93,6 +93,7 @@ public class BoidMovement : MonoBehaviour, IMovable
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        player = GameObject.Find("Player");
     }
 
     void Update()

@@ -15,5 +15,5 @@ MonoBehaviour:
   maxDamage: 5
   maxRange: 20
   maxAmmo: 20
-  weaponModel: {fileID: 0}
+  weaponModel: {fileID: 919132149155446097, guid: 30d2afee40c507f40b075b3501110ca2, type: 3}
   hotbarSprite: {fileID: 0}

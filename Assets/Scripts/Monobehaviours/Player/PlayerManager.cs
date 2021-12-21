@@ -60,9 +60,4 @@ public class PlayerManager : MonoBehaviour
             deathLogic.Die();
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-   
-    }
 }
