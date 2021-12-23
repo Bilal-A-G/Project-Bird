@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class GunManager : MonoBehaviour
 {
     public List<WeaponObject> weapons;
     [HideInInspector]
     public WeaponObject currentWeapon;
+
+    public TextMeshProUGUI ammoCount;
 
     InputActions inputActions;
 
@@ -29,19 +33,19 @@ public class GunManager : MonoBehaviour
 
         inputActions = new InputActions();
 
-        inputActions.PC.Reload.performed += ctx => reloadLogic.Reload(currentWeapon);
+        inputActions.PC.Reload.performed += ctx => reloadLogic.Reload(currentWeapon, true);
         inputActions.PC.Shoot.performed += ctx =>
         {
             if (reloadLogic.GetCurrentAmmo() > 0)
             {
-                if (shootingLogic.Shoot(currentWeapon))
+                if (shootingLogic.Shoot(currentWeapon, false))
                 {
                     reloadLogic.DecreaseCurrentAmmo();
                 }
             }
             else
             {
-                reloadLogic.Reload(currentWeapon);
+                shootingLogic.Shoot(currentWeapon, true);
             }
         };
     }
@@ -53,7 +57,7 @@ public class GunManager : MonoBehaviour
 
     void Update()
     {
-        
+        ammoCount.text = ("Ammo: " + reloadLogic.GetCurrentAmmo().ToString() + "/ " + currentWeapon.maxAmmo.ToString());
     }
 
     void UpdateWeapon()
@@ -61,6 +65,6 @@ public class GunManager : MonoBehaviour
         reloadLogic = transform.GetChild(0).GetComponent<IReloadable>();
         shootingLogic = transform.GetChild(0).GetComponent<IShootable>();
 
-        reloadLogic.Reload(currentWeapon);
+        reloadLogic.Reload(currentWeapon, false);
     }
 }

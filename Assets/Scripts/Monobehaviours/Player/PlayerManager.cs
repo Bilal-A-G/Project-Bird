@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class PlayerManager : MonoBehaviour
     IMovable movementLogic;
     IKillable deathLogic;
     IInteractable interactLogic;
+
+    public TextMeshProUGUI healthCount;
 
     private void OnEnable()
     {
@@ -59,5 +63,6 @@ public class PlayerManager : MonoBehaviour
         {
             deathLogic.Die();
         }
+        healthCount.text = ("Health: " + deathLogic.GetCurrentHealth().ToString());
     }
 }

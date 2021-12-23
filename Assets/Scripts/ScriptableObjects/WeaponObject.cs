@@ -8,7 +8,11 @@ public class WeaponObject : ScriptableObject
     public float maxDamage;
     public float maxRange;
     public float maxAmmo;
+    public float fireRate;
 
-    public GameObject weaponModel;
-    public Sprite hotbarSprite;
+    public AudioClip fireSound;
+    public AudioClip dryFireSound;
+    public AudioClip reloadSound;
+    public AudioClip hitSound;
+    public AudioClip hitEnvironmentSound;
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour, IMovable
 {
@@ -12,6 +13,9 @@ public class PlayerMovement : MonoBehaviour, IMovable
     public float maxStamina;
     public float staminaDrain;
     public float staminaRegen;
+    public int sprintingFov;
+    public int walkingFov;
+    public float zoomSpeed;
 
     [Header("Camera Variables")]
     public float mouseSensitivity;
@@ -22,6 +26,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask layerMask;
+
+    public TextMeshProUGUI staminaCount;
 
     [HideInInspector]
     public CharacterController characterController;
@@ -85,6 +91,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
         xRotation = transform.localEulerAngles.y + currentMousePosition.x * mouseSensitivity * 0.25f;
         yRotation = currentMousePosition.y * mouseSensitivity * 0.25f;
 
+        staminaCount.text = "Stamina: " + ((int)currentStamina);
+
         if (!invertedCamera)
         {
             finalRotation -= yRotation;
@@ -126,6 +134,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
     void ControlStamina()
     {
+        float currentFov = walkingFov;
+
         if (isSprinting && isGrounded && currentStamina > 0)
         {
             currentStamina -= staminaDrain * Time.deltaTime;
@@ -149,10 +159,14 @@ public class PlayerMovement : MonoBehaviour, IMovable
         if (isSprinting && currentStamina > 0)
         {
             currentSpeed = sprintSpeed;
+            currentFov = Mathf.Lerp(mainCamera.fieldOfView, sprintingFov, Time.deltaTime * zoomSpeed);
         }
         else
         {
             currentSpeed = speed;
+            currentFov = Mathf.Lerp(mainCamera.fieldOfView, walkingFov, Time.deltaTime * zoomSpeed);
         }
+
+        mainCamera.fieldOfView = currentFov;
     }
 }

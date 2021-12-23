@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IReloadable
 {
-    void Reload(WeaponObject weaponStats);
+    void Reload(WeaponObject weaponStats, bool playSound);
 
     float GetCurrentAmmo();
 

@@ -14,6 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDamage: 5
   maxRange: 20
-  maxAmmo: 20
+  maxAmmo: 10
+  fireRate: 2
+  fireSound: {fileID: 8300000, guid: b509888f9d311e54cb429aba559395ee, type: 3}
+  dryFireSound: {fileID: 8300000, guid: 2ddc1d4d3473fc947951641c4e98b6fb, type: 3}
+  reloadSound: {fileID: 8300000, guid: aa990eb8fc17e6b43b38600b0e6cc228, type: 3}
+  hitSound: {fileID: 8300000, guid: d9d75017a36472244826a25e60fa3b91, type: 3}
+  hitEnvironmentSound: {fileID: 8300000, guid: 1cf2b4c59202d1f4db6abe549f962740, type: 3}
   weaponModel: {fileID: 919132149155446097, guid: 30d2afee40c507f40b075b3501110ca2, type: 3}
   hotbarSprite: {fileID: 0}

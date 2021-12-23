@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -7,6 +8,7 @@ public class WaveManager : MonoBehaviour
     public static WaveManager instance { get; private set; }
     public GameObject enemyModel;
     public Vector3 spawnPosition;
+    public TextMeshProUGUI waveCounter;
     
     public List<Wave> waves;
     public int difficultyScale;
@@ -51,6 +53,8 @@ public class WaveManager : MonoBehaviour
                 SpawnEnemy(i);
             }
         }
+
+        waveCounter.text = "Wave " + currentWaveNumber + 1;
     }
 
     void SpawnEnemy(int offset)

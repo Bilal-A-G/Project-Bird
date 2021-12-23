@@ -5,8 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class PlayerDeath : MonoBehaviour, IKillable
 {
-    public float maxHealth;
     float currentHealth;
+    float trauma;
+
+    public float maxHealth;
+    public Camera mainCamera;
+    public float traumaDecreaseRate;
+    public AudioClip hitSound;
+    public AudioSource soundSource;
+
+    public Vector3 screenshakeYawPitchRoll;
 
     public Vector3 respawnPosition;
 
@@ -21,6 +29,10 @@ public class PlayerDeath : MonoBehaviour, IKillable
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        trauma += 1 / damage;
+
+        soundSource.clip = hitSound;
+        soundSource.Play();
     }
 
     void Start()
@@ -30,6 +42,16 @@ public class PlayerDeath : MonoBehaviour, IKillable
 
     void Update()
     {
-        
+        Vector3 screenshake = screenshakeYawPitchRoll * trauma * Random.Range(-1f, 1f);
+        if(trauma > 0)
+        {
+            trauma -= traumaDecreaseRate * Time.deltaTime;
+        }
+        else
+        {
+            trauma = 0;
+        }
+
+        mainCamera.transform.eulerAngles += screenshake;
     }
 }
