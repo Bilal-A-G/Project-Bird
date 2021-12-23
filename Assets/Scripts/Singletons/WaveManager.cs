@@ -9,7 +9,10 @@ public class WaveManager : MonoBehaviour
     public GameObject enemyModel;
     public Vector3 spawnPosition;
     public TextMeshProUGUI waveCounter;
-    
+
+    public float randomizeLocationDevianceX;
+    public float randomizeLocationDevianceZ;
+
     public List<Wave> waves;
     public int difficultyScale;
 
@@ -50,17 +53,21 @@ public class WaveManager : MonoBehaviour
             }
             for (int i = 0; i < waves[currentWaveNumber].numberOfEnemies; i++)
             {
-                SpawnEnemy(i);
+                SpawnEnemy();
             }
         }
 
-        waveCounter.text = "Wave " + currentWaveNumber + 1;
+        waveCounter.text = "Wave " + (currentWaveNumber + 1);
     }
 
-    void SpawnEnemy(int offset)
+    void SpawnEnemy()
     {
         GameObject enemy = Instantiate(enemyModel, transform);
-        enemy.transform.position = spawnPosition + new Vector3(0, offset * enemy.transform.localScale.y, 0);
+        Vector3 randomizedLocation = new Vector3(Random.Range(-randomizeLocationDevianceX, randomizeLocationDevianceX), 0, Random.Range(-randomizeLocationDevianceZ, randomizeLocationDevianceZ));
+        Vector3 finalObjectLocation = enemy.transform.position + randomizedLocation;
+
+        enemy.transform.position = finalObjectLocation;
+        enemy.SetActive(true);
     }
 
     [System.Serializable]

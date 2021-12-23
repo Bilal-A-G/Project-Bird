@@ -420,6 +420,8 @@ MonoBehaviour:
   enemyModel: {fileID: 3981977564480460507, guid: bc63f5d973c6a7e48884e95d9c1900d8, type: 3}
   spawnPosition: {x: 0, y: 10, z: 0}
   waveCounter: {fileID: 1852071273}
+  randomizeLocationDevianceX: 20
+  randomizeLocationDevianceZ: 20
   waves: []
   difficultyScale: 2
 --- !u!4 &279557207 stripped
@@ -1354,7 +1356,7 @@ MonoBehaviour:
   maxStamina: 100
   staminaDrain: 10
   staminaRegen: 10
-  sprintingFov: 105
+  sprintingFov: 80
   walkingFov: 64
   zoomSpeed: 3
   mouseSensitivity: 2
