@@ -64,7 +64,7 @@ public class WaveManager : MonoBehaviour
     {
         GameObject enemy = Instantiate(enemyModel, transform);
         Vector3 randomizedLocation = new Vector3(Random.Range(-randomizeLocationDevianceX, randomizeLocationDevianceX), 0, Random.Range(-randomizeLocationDevianceZ, randomizeLocationDevianceZ));
-        Vector3 finalObjectLocation = enemy.transform.position + randomizedLocation;
+        Vector3 finalObjectLocation = spawnPosition + randomizedLocation;
 
         enemy.transform.position = finalObjectLocation;
         enemy.SetActive(true);

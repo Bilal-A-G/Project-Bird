@@ -28,6 +28,8 @@ public class BoidAttack : MonoBehaviour, IAttackable
 
     }
 
+    public void DealDamage(Collider collision) => new System.NotImplementedException();
+
     void Start()
     {
         

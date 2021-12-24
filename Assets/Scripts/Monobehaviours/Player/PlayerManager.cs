@@ -25,6 +25,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         movementLogic = GetComponent<IMovable>();
         deathLogic = GetComponent<IKillable>();
         interactLogic = GetComponent<IInteractable>();
@@ -62,6 +63,7 @@ public class PlayerManager : MonoBehaviour
         if(deathLogic.GetCurrentHealth() <= 0)
         {
             deathLogic.Die();
+            Cursor.lockState = CursorLockMode.None;
         }
         healthCount.text = ("Health: " + deathLogic.GetCurrentHealth().ToString());
     }

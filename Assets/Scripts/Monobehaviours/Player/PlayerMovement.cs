@@ -47,7 +47,6 @@ public class PlayerMovement : MonoBehaviour, IMovable
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
         currentSpeed = speed;
         currentStamina = maxStamina;
     }

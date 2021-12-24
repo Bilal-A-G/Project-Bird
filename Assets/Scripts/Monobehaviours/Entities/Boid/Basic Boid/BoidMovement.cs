@@ -98,7 +98,10 @@ public class BoidMovement : MonoBehaviour, IMovable
 
     void Update()
     {
-
+        if((transform.position - player.transform.position).magnitude >= 10000)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Look(Vector2 lookVector) => throw new System.NotImplementedException();
