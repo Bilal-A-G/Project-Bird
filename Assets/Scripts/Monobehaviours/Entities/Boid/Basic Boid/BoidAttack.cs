@@ -7,6 +7,7 @@ public class BoidAttack : MonoBehaviour, IAttackable
     public float attackDamage;
     public float hitForgiveness;
     public float range;
+    public Animator boidAnimations;
 
     float timeSinceLastAttack;
 
@@ -21,6 +22,7 @@ public class BoidAttack : MonoBehaviour, IAttackable
                 if (timeSinceLastAttack + hitForgiveness < Time.time)
                 {
                     timeSinceLastAttack = Time.time;
+                    boidAnimations.SetTrigger("Attack");
                     collision.collider.gameObject.GetComponent<IKillable>().TakeDamage(attackDamage);
                 }
             }
