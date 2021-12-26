@@ -48,7 +48,7 @@ public class WaveManager : MonoBehaviour
 
             if (waves.Count - 1 < currentWaveNumber)
             {
-                Wave newWave = new Wave(Random.Range(1, 20) + currentWaveNumber * difficultyScale);
+                Wave newWave = new Wave(Random.Range(1, 3) + currentWaveNumber * difficultyScale);
                 waves.Add(newWave);
             }
             for (int i = 0; i < waves[currentWaveNumber].numberOfEnemies; i++)
